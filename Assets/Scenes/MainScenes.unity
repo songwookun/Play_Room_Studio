@@ -480,6 +480,7 @@ Transform:
   m_Children:
   - {fileID: 1040282224}
   - {fileID: 1218300191}
+  - {fileID: 2104617068}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &242086225
@@ -656,7 +657,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 4
+  orthographic size: 5.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1006,6 +1007,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefbs:
   - {fileID: 3700740113117535050, guid: 225336743c72aa54a894dce39ab5599b, type: 3}
+  - {fileID: 7998179979465966485, guid: 95dcbc5da66a8f84291c0bddc917a8dd, type: 3}
 --- !u!4 &806196016
 Transform:
   m_ObjectHideFlags: 0
@@ -19424,7 +19426,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1839109630
 Transform:
   m_ObjectHideFlags: 0
@@ -19678,7 +19680,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 242086224}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2104617069
 MonoBehaviour:
@@ -19703,5 +19705,4 @@ SceneRoots:
   - {fileID: 1977289563}
   - {fileID: 806196016}
   - {fileID: 242086224}
-  - {fileID: 2104617068}
   - {fileID: 1839109630}

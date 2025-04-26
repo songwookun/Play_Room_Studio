@@ -6,24 +6,29 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public float speed;
+    public float health;
+    public float maxHealth;
+    public RuntimeAnimatorController[] animCon;
     public Rigidbody2D target;
 
     bool isLive = true;
 
     Rigidbody2D rigid;
+    Animator anim;
     SpriteRenderer spriter;
 
-    void Start()
+    void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
         spriter = GetComponent<SpriteRenderer>();
     }
 
     private void FixedUpdate()
     {
-        if(!isLive)
+        if (!isLive)
             return;
-        
+
         Vector2 dirVec = target.position - rigid.position;
         Vector2 nextVec = dirVec.normalized * speed * Time.fixedDeltaTime;
         rigid.MovePosition(rigid.position + nextVec);
@@ -42,10 +47,24 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            scale.x = Mathf.Abs(scale.x); 
+            scale.x = Mathf.Abs(scale.x);
         }
 
         transform.localScale = scale;
     }
 
+    private void OnEnable()
+    {
+        target = GameManager.Instance.player.GetComponent<Rigidbody2D>();
+        isLive = true;
+        health = maxHealth;
+    }
+
+    public void Init(SpawnData data)
+    {
+        anim.runtimeAnimatorController = animCon[data.spriteType];
+        speed = data.speed;
+        maxHealth = data.health;
+        health = data.health;
+    }
 }

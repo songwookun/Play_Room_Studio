@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6744338919993301732}
   - component: {fileID: 7710382835519969278}
   m_Layer: 0
-  m_Name: Vampire
+  m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -191,8 +191,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 065391edd5faf9b4fafa891e1689dfbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
-  target: {fileID: 0}
+  speed: 0
+  health: 0
+  maxHealth: 0
+  animCon:
+  - {fileID: 9100000, guid: 845be183ce1d37941b360f1ba0ca132e, type: 2}
+  - {fileID: 9100000, guid: c1e6f55dbdf2fe64193dbe2363ffc7d6, type: 2}
+  target: {fileID: 135923772104828120, guid: 886909c331e7b7e459169bf4c8ba0216, type: 3}
 --- !u!114 &7710382835519969278
 MonoBehaviour:
   m_ObjectHideFlags: 0
