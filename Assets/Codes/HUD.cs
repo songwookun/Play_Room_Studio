@@ -45,13 +45,19 @@ public class HUD : MonoBehaviour
                 break;
 
             case InfoType.Time:
-                if (mytext != null)  
-                    mytext.text = $"{GameManager.Instance.gameTime:F1}s"; 
+                if (mytext != null)
+                {
+                    int totalSeconds = (int)GameManager.Instance.gameTime;
+                    int minutes = totalSeconds / 60;
+                    int seconds = totalSeconds % 60;
+                    mytext.text = $"{minutes:00}:{seconds:00}";
+                }
                 break;
 
             case InfoType.Health:
-                if (mytext != null)  
-                    mytext.text = "100%"; 
+                float curHealth = GameManager.Instance.health;
+                float maxhealth = GameManager.Instance.maxHealth;
+                myslider.value = curHealth / maxhealth;
                 break;
         }
     }

@@ -11,14 +11,20 @@ public class GameManager : MonoBehaviour
 
     public PoolManger pool;
     public PlayerMove player;
-
-    public float exp = 0f;           // 현재 경험치
-    public int level = 0;            // 현재 레벨
-    public float Kill = 0;
+    public int health;
+    public int maxHealth = 100;
+    public float exp;           // 현재 경험치
+    public int level;            // 현재 레벨
+    public float Kill;
 
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        health = maxHealth;
     }
 
     void Update()
