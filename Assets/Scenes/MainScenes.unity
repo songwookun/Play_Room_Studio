@@ -9787,8 +9787,6 @@ MonoBehaviour:
   skillPrefabs:
   - {fileID: 5713381984438563512, guid: e6ecdc4c6de4c0c4ab7cf96577beb035, type: 3}
   attackPoint: {fileID: 615839421}
-  attackInterval: 1
-  skillDuration: 2
 --- !u!1 &1241984867
 GameObject:
   m_ObjectHideFlags: 0

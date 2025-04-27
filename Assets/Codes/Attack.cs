@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    public List<GameObject> skillPrefabs; // 여러 스킬 프리팹
-    public Transform attackPoint;         // 스킬 생성 위치
-    public float attackInterval = 1f;      // 스킬 간격 (공통)
-    public float skillDuration = 0.5f;     // 스킬 지속시간 (공통)
+    public List<GameObject> skillPrefabs;
+    public Transform attackPoint;
 
     private PlayerMove playerMove;
+    private Dictionary<int, SkillData> skillDatas;
 
     private void Start()
     {
         playerMove = GetComponent<PlayerMove>();
+        skillDatas = SkillDataLoader.LoadSkillDatas();
+
         StartCoroutine(AttackRoutine());
     }
 
@@ -21,28 +22,26 @@ public class Attack : MonoBehaviour
     {
         while (true)
         {
-            if (skillPrefabs.Count == 0)
+            for (int i = 0; i < skillPrefabs.Count; i++)
             {
-                yield return null;
-                continue;
-            }
-
-            foreach (var prefab in skillPrefabs)
-            {
-                if (prefab == null)
+                if (!skillDatas.ContainsKey(i) || skillPrefabs[i] == null)
                     continue;
 
-                GameObject slash = Instantiate(prefab, attackPoint.position, Quaternion.identity);
+                SkillData currentSkillData = skillDatas[i];
 
-                // 방향 처리
+                GameObject slash = Instantiate(skillPrefabs[i], attackPoint.position, Quaternion.identity);
+
+                SkillCollider skillCollider = slash.AddComponent<SkillCollider>();
+                skillCollider.damage = currentSkillData.damage;
+
                 if (playerMove.Direction > 0)
                     slash.transform.rotation = Quaternion.Euler(0, 180f, 0);
                 else
                     slash.transform.rotation = Quaternion.identity;
 
-                Destroy(slash, skillDuration);
+                Destroy(slash, currentSkillData.skillDuration);
 
-                yield return new WaitForSeconds(attackInterval);
+                yield return new WaitForSeconds(currentSkillData.attackInterval);
             }
         }
     }
