@@ -8,7 +8,7 @@ public class Spawner : MonoBehaviour
 {
     public Transform[] spawnPoint;
 
-    List<SpawnData> spawnDataList = new List<SpawnData>(); // CSV 데이터 저장 리스트
+    List<SpawnData> spawnDataList = new List<SpawnData>(); 
     int level;
     float timer;
 
@@ -54,7 +54,7 @@ public class Spawner : MonoBehaviour
 
         string[] lines = File.ReadAllLines(filePath);
 
-        for (int i = 1; i < lines.Length; i++) // 0번째 줄(헤더) 스킵
+        for (int i = 1; i < lines.Length; i++) 
         {
             if (string.IsNullOrWhiteSpace(lines[i]))
                 continue;

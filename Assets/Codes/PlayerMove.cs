@@ -7,17 +7,21 @@ public class PlayerMove : MonoBehaviour
     private SpriteRenderer spriter;
     public float speed = 5f;
     public Vector2 inputVec;
+    public int Direction { get; private set; } = -1; // 기본 방향 왼쪽
 
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
-
-        // 본인에서 SpriteRenderer 못 찾으면, 자식에서 찾는다
         spriter = GetComponent<SpriteRenderer>();
         if (spriter == null)
-        {
             spriter = GetComponentInChildren<SpriteRenderer>();
-        }
+    }
+
+    private void Start()
+    {
+        // 시작할 때 강제 왼쪽 방향 세팅
+        transform.localScale = new Vector3(1, 1, 1);
+        Direction = -1;
     }
 
     void OnMove(InputValue value)
@@ -35,13 +39,13 @@ public class PlayerMove : MonoBehaviour
     {
         if (inputVec.x > 0)
         {
-            // 오른쪽 이동: localScale.x를 -1로 (SPUM 기준)
             transform.localScale = new Vector3(-1, 1, 1);
+            Direction = 1;
         }
         else if (inputVec.x < 0)
         {
-            // 왼쪽 이동: localScale.x를 1로
             transform.localScale = new Vector3(1, 1, 1);
+            Direction = -1;
         }
     }
 }

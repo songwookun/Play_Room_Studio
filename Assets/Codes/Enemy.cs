@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     public RuntimeAnimatorController[] animCon;
     public Rigidbody2D target;
 
-    bool isLive = true;
+    public bool isLive = true;
 
     Rigidbody2D rigid;
     Animator anim;
@@ -67,4 +67,18 @@ public class Enemy : MonoBehaviour
         maxHealth = data.health;
         health = data.health;
     }
+
+    public void TakeDamage(float damage)
+    {
+        if (!isLive) return;
+
+        health -= damage;
+
+        if (health <= 0)
+        {
+            isLive = false;
+            gameObject.SetActive(false); // 죽으면 비활성화
+        }
+    }
+
 }
