@@ -1255,6 +1255,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 742572436}
+  - component: {fileID: 742572437}
   m_Layer: 5
   m_Name: Health
   m_TagString: Untagged
@@ -1282,6 +1283,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 12, y: 4}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &742572437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 742572435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbcfa0dba93044e47bb8e6723f807218, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &784601157 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3914422804012852223, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
@@ -10549,7 +10562,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -20207,11 +20220,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 478980621996615014, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
       propertyPath: OTHER_List.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 478980621996615014, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
       propertyPath: ATTACK_List.Array.size
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 478980621996615014, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
       propertyPath: DEBUFF_List.Array.size
@@ -20224,31 +20237,63 @@ PrefabInstance:
     - target: {fileID: 478980621996615014, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
       propertyPath: 'IDLE_List.Array.data[0]'
       value: 
-      objectReference: {fileID: 7400000, guid: b81ad915777074048bdcc320f687ee1e, type: 2}
+      objectReference: {fileID: 7400000, guid: f28f6b07698afa64788c223754b1f4ff, type: 2}
     - target: {fileID: 478980621996615014, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
       propertyPath: 'MOVE_List.Array.data[0]'
       value: 
-      objectReference: {fileID: 7400000, guid: b1692a522a645ad488394d241ad662df, type: 2}
+      objectReference: {fileID: 7400000, guid: 5187132de96c18244b62b7d6e2580323, type: 2}
     - target: {fileID: 478980621996615014, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
       propertyPath: 'DEATH_List.Array.data[0]'
       value: 
-      objectReference: {fileID: 7400000, guid: e23bc41dfc64fef439b0a9d4b49d7d6a, type: 2}
+      objectReference: {fileID: 7400000, guid: d98f7c88116e94c1597806a94b475144, type: 2}
     - target: {fileID: 478980621996615014, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
       propertyPath: 'OTHER_List.Array.data[0]'
       value: 
-      objectReference: {fileID: 7400000, guid: 7b2a35216b7e533458ba5e38b8621354, type: 2}
+      objectReference: {fileID: 7400000, guid: 4c70df3312bb83346a1bf065b30d3467, type: 2}
+    - target: {fileID: 478980621996615014, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
+      propertyPath: 'OTHER_List.Array.data[1]'
+      value: 
+      objectReference: {fileID: 7400000, guid: 1ef525d53ae254f7d82ef364ced85490, type: 2}
+    - target: {fileID: 478980621996615014, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
+      propertyPath: 'OTHER_List.Array.data[2]'
+      value: 
+      objectReference: {fileID: 7400000, guid: fabe4f140fdb9cb448bc941c7c93e8b6, type: 2}
     - target: {fileID: 478980621996615014, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
       propertyPath: 'ATTACK_List.Array.data[0]'
       value: 
-      objectReference: {fileID: 7400000, guid: 5fa777919e804474080fad7ccf0cb5b4, type: 2}
+      objectReference: {fileID: 7400000, guid: c66e5eb2778574f1abbd40dcb05e1df7, type: 2}
+    - target: {fileID: 478980621996615014, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
+      propertyPath: 'ATTACK_List.Array.data[1]'
+      value: 
+      objectReference: {fileID: 7400000, guid: b2c5fb441f4ac42c2a2e051601eea60a, type: 2}
+    - target: {fileID: 478980621996615014, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
+      propertyPath: 'ATTACK_List.Array.data[2]'
+      value: 
+      objectReference: {fileID: 7400000, guid: ccc66609eaae7425f967209ab0b3935f, type: 2}
+    - target: {fileID: 478980621996615014, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
+      propertyPath: 'ATTACK_List.Array.data[3]'
+      value: 
+      objectReference: {fileID: 7400000, guid: 473ddbc57c00b45f1a93b0b519bea522, type: 2}
+    - target: {fileID: 478980621996615014, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
+      propertyPath: 'ATTACK_List.Array.data[4]'
+      value: 
+      objectReference: {fileID: 7400000, guid: 6fb0d327821de4ca19ea0fcf940b27ee, type: 2}
+    - target: {fileID: 478980621996615014, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
+      propertyPath: 'ATTACK_List.Array.data[5]'
+      value: 
+      objectReference: {fileID: 7400000, guid: 9a26543e06de846d08fbe01dbfcd13e2, type: 2}
     - target: {fileID: 478980621996615014, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
       propertyPath: 'DEBUFF_List.Array.data[0]'
       value: 
-      objectReference: {fileID: 7400000, guid: df7347d9a26250f49a9dab946bc4b0a4, type: 2}
+      objectReference: {fileID: 7400000, guid: 40f00165003e54cb08d55abfa92b88ef, type: 2}
     - target: {fileID: 478980621996615014, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
       propertyPath: 'DAMAGED_List.Array.data[0]'
       value: 
-      objectReference: {fileID: 7400000, guid: 9cb5dea9706a1964fbb1986cd1d8c4b2, type: 2}
+      objectReference: {fileID: 7400000, guid: eeb8ba3a0a6cb63499a6fa72e6ad7358, type: 2}
+    - target: {fileID: 478980621996615014, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
+      propertyPath: SpumAnimationData.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3141526734499859680, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public float gameTime;
-    public float maxGmaeTime = 2 * 10f;
+    public float maxGmaeTime;
 
     public PoolManger pool;
     public PlayerMove player;
@@ -30,11 +30,6 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         gameTime += Time.deltaTime;
-
-        if (gameTime > maxGmaeTime)
-        {
-            gameTime = maxGmaeTime;
-        }
     }
 
     public void GainExp(float amount)
