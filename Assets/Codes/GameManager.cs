@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public float maxGmaeTime = 2 * 10f;
 
     public PoolManger pool;
-    public Player player;
+    public PlayerMove player;
     
     private void Awake()
     {
