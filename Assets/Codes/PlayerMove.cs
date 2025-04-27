@@ -9,17 +9,20 @@ public class PlayerMove : MonoBehaviour
     public Vector2 inputVec;
     public int Direction { get; private set; } = -1; // 기본 방향 왼쪽
 
+    private SPUM_Prefabs spum; 
+
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
         spriter = GetComponent<SpriteRenderer>();
         if (spriter == null)
             spriter = GetComponentInChildren<SpriteRenderer>();
+
+        spum = GetComponentInParent<SPUM_Prefabs>(); 
     }
 
     private void Start()
     {
-        // 시작할 때 강제 왼쪽 방향 세팅
         transform.localScale = new Vector3(1, 1, 1);
         Direction = -1;
     }
@@ -46,6 +49,17 @@ public class PlayerMove : MonoBehaviour
         {
             transform.localScale = new Vector3(1, 1, 1);
             Direction = -1;
+        }
+        if (spum != null)
+        {
+            if (inputVec != Vector2.zero)
+            {
+                spum.PlayAnimation(PlayerState.MOVE, 0);
+            }
+            else
+            {
+                spum.PlayAnimation(PlayerState.IDLE, 0);
+            }
         }
     }
 }

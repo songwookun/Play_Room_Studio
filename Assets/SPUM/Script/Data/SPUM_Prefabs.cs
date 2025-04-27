@@ -37,6 +37,15 @@ public class SPUM_Prefabs : MonoBehaviour
     public List<AnimationClip> DEATH_List = new();
     public List<AnimationClip> OTHER_List = new();
 
+    private void Awake()
+    {
+        if (_anim == null)
+            _anim = GetComponent<Animator>();
+
+        OverrideControllerInit(); // 
+    }
+
+
     public void OverrideControllerInit()
     {
         Animator animator = _anim;
@@ -148,44 +157,63 @@ public class SPUM_Prefabs : MonoBehaviour
 
     public void PlayAnimation(PlayerState PlayState, int index)
     {
-        Animator animator = _anim;
-        var animations = StateAnimationPairs[PlayState.ToString()];
-
-        // 수정 추가: Null, 인덱스 범위, Null 요소 체크
-        if (animations == null || animations.Count <= index || animations[index] == null)
+        if (_anim == null)
         {
-            Debug.LogWarning($"PlayAnimation: {PlayState} 상태에 유효한 애니메이션이 없습니다. (index: {index})");
+            Debug.LogWarning("SPUM_Prefabs: Animator가 연결되지 않았습니다.");
             return;
         }
 
-        OverrideController[PlayState.ToString()] = animations[index];
+        string stateName = PlayState.ToString();
 
-        var StateStr = PlayState.ToString();
-        bool isMove = StateStr.Contains("MOVE");
-        bool isDebuff = StateStr.Contains("DEBUFF");
-        bool isDeath = StateStr.Contains("DEATH");
+        if (!StateAnimationPairs.ContainsKey(stateName))
+        {
+            Debug.LogWarning($"SPUM_Prefabs: {stateName} 키가 StateAnimationPairs에 없습니다.");
+            return;
+        }
 
-        animator.SetBool("1_Move", isMove);
-        animator.SetBool("5_Debuff", isDebuff);
-        animator.SetBool("isDeath", isDeath);
+        var animations = StateAnimationPairs[stateName];
+        if (animations == null || animations.Count <= index || animations[index] == null)
+        {
+            Debug.LogWarning($"SPUM_Prefabs: {stateName} 상태에 유효한 애니메이션이 없습니다. (index: {index})");
+            return;
+        }
+
+        if (OverrideController != null)
+        {
+            try
+            {
+                OverrideController[stateName] = animations[index];
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"SPUM_Prefabs: {stateName}에 애니메이션 덮어쓰기 실패. ({e.Message})");
+            }
+        }
+
+        var isMove = stateName.Contains("MOVE");
+        var isDebuff = stateName.Contains("DEBUFF");
+        var isDeath = stateName.Contains("DEATH");
+
+        _anim.SetBool("1_Move", isMove);
+        _anim.SetBool("5_Debuff", isDebuff);
+        _anim.SetBool("isDeath", isDeath);
 
         if (!isMove && !isDebuff)
         {
-            AnimatorControllerParameter[] parameters = animator.parameters;
-            foreach (AnimatorControllerParameter parameter in parameters)
+            foreach (var param in _anim.parameters)
             {
-                if (parameter.type == AnimatorControllerParameterType.Trigger)
+                if (param.type == AnimatorControllerParameterType.Trigger)
                 {
-                    bool isTrigger = parameter.name.ToUpper().Contains(StateStr.ToUpper());
-                    if (isTrigger)
+                    if (param.name.ToUpper().Contains(stateName.ToUpper()))
                     {
-                        Debug.Log($"Parameter: {parameter.name}, Type: {parameter.type}");
-                        animator.SetTrigger(parameter.name);
+                        _anim.SetTrigger(param.name);
                     }
                 }
             }
         }
     }
+
+
 
     AnimationClip LoadAnimationClip(string clipPath)
     {

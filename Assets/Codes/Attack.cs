@@ -6,7 +6,6 @@ public class Attack : MonoBehaviour
 {
     public List<GameObject> skillPrefabs;
     public Transform attackPoint;
-    //public GameObject hitEffectPrefab; // ≈∏∞› ¿Ã∆Â∆Æ «¡∏Æ∆’
 
     private PlayerMove playerMove;
     private Dictionary<int, SkillData> skillDatas;
@@ -35,7 +34,6 @@ public class Attack : MonoBehaviour
                 SkillCollider skillCollider = slash.AddComponent<SkillCollider>();
                 skillCollider.damage = currentSkillData.damage;
 
-                //skillCollider.hitEffectPrefab = hitEffectPrefab; // ¿Ã∆Â∆Æ «¡∏Æ∆’ ø¨∞·
 
                 if (playerMove.Direction > 0)
                     slash.transform.rotation = Quaternion.Euler(0, 180f, 0);
