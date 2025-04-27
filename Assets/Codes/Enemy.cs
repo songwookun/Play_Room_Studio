@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Enemy : MonoBehaviour
 {
     public float speed;
@@ -16,6 +15,9 @@ public class Enemy : MonoBehaviour
     Rigidbody2D rigid;
     Animator anim;
     SpriteRenderer spriter;
+
+    // [추가] 이 몬스터를 잡았을 때 줄 경험치량
+    public float rewardExp = 30f;
 
     void Awake()
     {
@@ -77,8 +79,12 @@ public class Enemy : MonoBehaviour
         if (health <= 0)
         {
             isLive = false;
+
+            // [추가] 몬스터가 죽었을 때 Kill + 1, 경험치 추가
+            GameManager.Instance.Kill += 1;
+            GameManager.Instance.GainExp(rewardExp);
+
             gameObject.SetActive(false); // 죽으면 비활성화
         }
     }
-
 }
