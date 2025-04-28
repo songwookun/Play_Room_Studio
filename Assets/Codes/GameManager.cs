@@ -13,9 +13,12 @@ public class GameManager : MonoBehaviour
     public PlayerMove player;
     public int health;
     public int maxHealth = 100;
-    public float exp;           // 현재 경험치
-    public int level;            // 현재 레벨
+    public float exp;
+    public int level;
     public float Kill;
+
+    public int mp;             // 현재 MP
+    public int maxMp = 10;      // 최대 MP
 
     private void Awake()
     {
@@ -25,6 +28,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         health = maxHealth;
+        mp = 0;                 // MP도 초기화
     }
 
     void Update()
@@ -45,6 +49,20 @@ public class GameManager : MonoBehaviour
 
     public float GetNextExp(int currentLevel)
     {
-        return 100f * Mathf.Pow(2, currentLevel); 
+        return 100f * Mathf.Pow(2, currentLevel);
+    }
+
+    public void GainMp(int amount)
+    {
+        mp += amount;
+        if (mp > maxMp)
+            mp = maxMp;
+    }
+
+    public void UseMp(int amount)
+    {
+        mp -= amount;
+        if (mp < 0)
+            mp = 0;
     }
 }

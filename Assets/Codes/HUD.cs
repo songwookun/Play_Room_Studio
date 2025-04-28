@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
-    public enum InfoType { Exp, Level, Kill, Time, Health }
+    public enum InfoType { Exp, Level, Kill, Time, Health, MP } 
+
     public InfoType type;
 
     Text mytext;
@@ -35,12 +36,12 @@ public class HUD : MonoBehaviour
                 break;
 
             case InfoType.Level:
-                if (mytext != null) 
+                if (mytext != null)
                     mytext.text = string.Format("Lv.{0:F0}", GameManager.Instance.level);
                 break;
 
             case InfoType.Kill:
-                if (mytext != null)  
+                if (mytext != null)
                     mytext.text = string.Format("{0:F0}", GameManager.Instance.Kill);
                 break;
 
@@ -55,9 +56,25 @@ public class HUD : MonoBehaviour
                 break;
 
             case InfoType.Health:
-                float curHealth = GameManager.Instance.health;
-                float maxhealth = GameManager.Instance.maxHealth;
-                myslider.value = curHealth / maxhealth;
+                if (myslider != null)
+                {
+                    float curHealth = GameManager.Instance.health;
+                    float maxHealth = GameManager.Instance.maxHealth;
+                    myslider.value = curHealth / maxHealth;
+                }
+                break;
+
+            case InfoType.MP:   
+                if (myslider != null)
+                {
+                    float curMp = GameManager.Instance.mp;
+                    float maxMp = GameManager.Instance.maxMp;
+                    myslider.value = curMp / maxMp;
+                }
+                if (mytext != null)
+                {
+                    mytext.text = $"{GameManager.Instance.mp} / {GameManager.Instance.maxMp}";
+                }
                 break;
         }
     }

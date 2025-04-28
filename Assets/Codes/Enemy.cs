@@ -19,6 +19,9 @@ public class Enemy : MonoBehaviour
     // [추가] 이 몬스터를 잡았을 때 줄 경험치량
     public float rewardExp = 30f;
 
+    public GameObject mpPrefab;  // 드랍할 MP 프리팹
+    public float dropChance = 0.3f; // 30% 확률
+
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -84,7 +87,19 @@ public class Enemy : MonoBehaviour
             GameManager.Instance.Kill += 1;
             GameManager.Instance.GainExp(rewardExp);
 
+            TryDropMP();
+
             gameObject.SetActive(false); // 죽으면 비활성화
+        }
+    }
+    private void TryDropMP()
+    {
+        if (mpPrefab != null)
+        {
+            if (Random.value < dropChance) // Random.value는 0~1 사이 랜덤값
+            {
+                Instantiate(mpPrefab, transform.position, Quaternion.identity);
+            }
         }
     }
 }
