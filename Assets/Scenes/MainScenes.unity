@@ -20676,8 +20676,6 @@ MonoBehaviour:
   exp: 0
   level: 0
   Kill: 0
-  mp: 0
-  maxMp: 10
 --- !u!4 &1791437497
 Transform:
   m_ObjectHideFlags: 0

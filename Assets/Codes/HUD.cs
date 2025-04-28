@@ -64,18 +64,7 @@ public class HUD : MonoBehaviour
                 }
                 break;
 
-            case InfoType.MP:   
-                if (myslider != null)
-                {
-                    float curMp = GameManager.Instance.mp;
-                    float maxMp = GameManager.Instance.maxMp;
-                    myslider.value = curMp / maxMp;
-                }
-                if (mytext != null)
-                {
-                    mytext.text = $"{GameManager.Instance.mp} / {GameManager.Instance.maxMp}";
-                }
-                break;
+
         }
     }
 }

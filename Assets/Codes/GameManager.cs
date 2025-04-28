@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,8 +18,7 @@ public class GameManager : MonoBehaviour
     public int level;
     public float Kill;
 
-    public int mp;             // 현재 MP
-    public int maxMp = 10;      // 최대 MP
+    private Dictionary<int, float> levelExpDict = new Dictionary<int, float>();
 
     private void Awake()
     {
@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         health = maxHealth;
-        mp = 0;                 // MP도 초기화
+        LoadLevelExpData();
     }
 
     void Update()
@@ -49,20 +49,53 @@ public class GameManager : MonoBehaviour
 
     public float GetNextExp(int currentLevel)
     {
-        return 100f * Mathf.Pow(2, currentLevel);
+        if (levelExpDict.ContainsKey(currentLevel))
+        {
+            return levelExpDict[currentLevel];
+        }
+        else
+        {
+            Debug.LogWarning($"레벨 {currentLevel}에 대한 경험치 데이터가 없습니다.");
+            return 99999999f; // 없는 레벨은 사실상 레벨업 불가
+        }
     }
 
-    public void GainMp(int amount)
+    private void LoadLevelExpData()
     {
-        mp += amount;
-        if (mp > maxMp)
-            mp = maxMp;
+        TextAsset csvFile = Resources.Load<TextAsset>("LevelExp");
+        if (csvFile == null)
+        {
+            Debug.LogError("LevelExp.csv 파일을 찾을 수 없습니다! Resources 폴더에 있어야 합니다.");
+            return;
+        }
+
+        StringReader reader = new StringReader(csvFile.text);
+
+        bool isFirstLine = true; // 추가
+        while (true)
+        {
+            string line = reader.ReadLine();
+            if (line == null) break;
+
+            if (isFirstLine)  // 첫 줄 (헤더) 스킵
+            {
+                isFirstLine = false;
+                continue;
+            }
+
+            string[] split = line.Split(',');
+            if (split.Length >= 2)
+            {
+                if (int.TryParse(split[0], out int level) && float.TryParse(split[1], out float requiredExp))
+                {
+                    levelExpDict[level] = requiredExp;
+                }
+                else
+                {
+                    Debug.LogWarning($"잘못된 형식이 감지된 줄: {line}");
+                }
+            }
+        }
     }
 
-    public void UseMp(int amount)
-    {
-        mp -= amount;
-        if (mp < 0)
-            mp = 0;
-    }
 }
