@@ -73,6 +73,13 @@ public class PlayerMove : MonoBehaviour
             float distance = Vector2.Distance(transform.position, collision.transform.position);
             if (distance < 1.0f)
             {
+                //[치트 삽입] 무적 모드 활성화 시 체력 감소 건너뜀
+                if (CheatManager.Instance != null && CheatManager.Instance.IsNoDamageActive())
+                {
+                    Debug.Log("[치트] 무적 모드로 인해 체력 감소 없음");
+                    return;
+                }
+
                 GameManager.Instance.health -= 10;
                 Debug.Log($"[체력 감소] 현재 체력: {GameManager.Instance.health}");
 
