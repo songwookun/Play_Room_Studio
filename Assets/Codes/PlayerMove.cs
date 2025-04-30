@@ -107,7 +107,7 @@ public class PlayerMove : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(0.8f); // 시간 정지와 상관없이 정확히 0.8초 대기
 
-        Time.timeScale = 0f; // 게임 멈추기
+        //Time.timeScale = 0f; // 게임 멈추기
         Debug.Log("게임 멈춤 (Game Over 상태)");
     }
 }
