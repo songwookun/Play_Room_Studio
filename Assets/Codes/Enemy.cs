@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum StatusEffect { None, Burn, Slow }
+
 public class Enemy : MonoBehaviour
 {
     public float speed;
@@ -16,11 +18,12 @@ public class Enemy : MonoBehaviour
     Animator anim;
     SpriteRenderer spriter;
 
-    // [추가] 이 몬스터를 잡았을 때 줄 경험치량
     public float rewardExp = 30f;
 
-    public GameObject mpPrefab;  // 드랍할 MP 프리팹
-    public float dropChance = 0.3f; // 30% 확률
+    public GameObject mpPrefab;
+    public float dropChance = 0.3f;
+
+    private Coroutine currentDebuff;
 
     void Awake()
     {
@@ -83,23 +86,54 @@ public class Enemy : MonoBehaviour
         {
             isLive = false;
 
-            // [추가] 몬스터가 죽었을 때 Kill + 1, 경험치 추가
             GameManager.Instance.Kill += 1;
             GameManager.Instance.GainExp(rewardExp);
 
             TryDropMP();
 
-            gameObject.SetActive(false); // 죽으면 비활성화
+            gameObject.SetActive(false);
         }
     }
+
     private void TryDropMP()
     {
-        if (mpPrefab != null)
+        if (mpPrefab != null && Random.value < dropChance)
         {
-            if (Random.value < dropChance) // Random.value는 0~1 사이 랜덤값
-            {
-                Instantiate(mpPrefab, transform.position, Quaternion.identity);
-            }
+            Instantiate(mpPrefab, transform.position, Quaternion.identity);
         }
+    }
+
+    public void ApplyStatus(StatusEffect effect, float duration, float tickDamage = 0f, float speedReduction = 0f)
+    {
+        if (currentDebuff != null)
+            StopCoroutine(currentDebuff);
+
+        currentDebuff = StartCoroutine(HandleStatusEffect(effect, duration, tickDamage, speedReduction));
+    }
+
+    private IEnumerator HandleStatusEffect(StatusEffect effect, float duration, float tickDamage, float speedReduction)
+    {
+        float originalSpeed = speed;
+
+        switch (effect)
+        {
+            case StatusEffect.Burn:
+                float elapsed = 0f;
+                while (elapsed < duration)
+                {
+                    TakeDamage(tickDamage);
+                    elapsed += 1f;
+                    yield return new WaitForSeconds(1f);
+                }
+                break;
+
+            case StatusEffect.Slow:
+                speed -= speedReduction;
+                yield return new WaitForSeconds(duration);
+                speed = originalSpeed;
+                break;
+        }
+
+        currentDebuff = null;
     }
 }

@@ -23,4 +23,19 @@ public class MPManager : MonoBehaviour
             currentMP++;
         }
     }
+
+    public bool UseMP(int amount)
+    {
+        if (currentMP < amount)
+            return false;
+
+        for (int i = 0; i < amount; i++)
+        {
+            currentMP--;
+            mpImages[currentMP].SetActive(false);
+        }
+
+        return true;
+    }
+
 }

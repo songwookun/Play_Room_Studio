@@ -1,4 +1,4 @@
-"startTime,","spriteType,","health,",speed,spawnTime
+"startTime,","spriteType,","health,","speed,",spawnTime
 0,0,10,5,0.7
-10,1,15,2.4,0.4
+10,1,50,2.4,0.4
 20,2,10,3,0.2
