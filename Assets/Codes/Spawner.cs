@@ -1,45 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO; // 파일 읽기
-using System.Linq; // 문자열 Split
+using System.IO;
+using System.Linq;
 
 public class Spawner : MonoBehaviour
 {
     public Transform[] spawnPoint;
 
-    List<SpawnData> spawnDataList = new List<SpawnData>(); 
-    int level;
+    List<SpawnData> spawnDataList = new List<SpawnData>();
+    SpawnData currentData;
     float timer;
 
     private void Awake()
     {
         spawnPoint = GetComponentsInChildren<Transform>();
-
-        // CSV 파일 직접 읽기 (Datafile 폴더에서)
         LoadSpawnDataFromCSV();
     }
 
     void Update()
     {
         timer += Time.deltaTime;
-        level = Mathf.FloorToInt(GameManager.Instance.gameTime / 10f);
 
-        // level이 spawnDataList 범위를 초과하지 않게 고정
-        level = Mathf.Min(level, spawnDataList.Count - 1);
+        // 현재 시간에 맞는 몬스터 데이터 선택
+        float gameTime = GameManager.Instance.gameTime;
+        foreach (var data in spawnDataList)
+        {
+            if (gameTime >= data.startTime)
+                currentData = data;
+        }
 
-        if (timer > spawnDataList[level].spawnTime)
+        if (currentData == null) return;
+
+        if (timer > currentData.spawnTime)
         {
             timer = 0f;
-            Spawn();
+            Spawn(currentData);
         }
     }
 
-    void Spawn()
+    void Spawn(SpawnData data)
     {
         GameObject enemy = GameManager.Instance.pool.Get(0);
         enemy.transform.position = spawnPoint[Random.Range(1, spawnPoint.Length)].position;
-        enemy.GetComponent<Enemy>().Init(spawnDataList[level]);
+        enemy.GetComponent<Enemy>().Init(data);
     }
 
     void LoadSpawnDataFromCSV()
@@ -54,7 +58,7 @@ public class Spawner : MonoBehaviour
 
         string[] lines = File.ReadAllLines(filePath);
 
-        for (int i = 1; i < lines.Length; i++) 
+        for (int i = 1; i < lines.Length; i++)
         {
             if (string.IsNullOrWhiteSpace(lines[i]))
                 continue;
@@ -62,10 +66,11 @@ public class Spawner : MonoBehaviour
             string[] parts = lines[i].Trim().Split(',');
 
             SpawnData data = new SpawnData();
-            data.spawnTime = float.Parse(parts[0]);
+            data.startTime = float.Parse(parts[0]);
             data.spriteType = int.Parse(parts[1]);
             data.health = int.Parse(parts[2]);
             data.speed = float.Parse(parts[3]);
+            data.spawnTime = float.Parse(parts[4]);
 
             spawnDataList.Add(data);
         }
@@ -75,8 +80,9 @@ public class Spawner : MonoBehaviour
 [System.Serializable]
 public class SpawnData
 {
-    public float spawnTime;
+    public float startTime;   // 몇 초부터 등장할지
     public int spriteType;
     public int health;
     public float speed;
+    public float spawnTime;   // 등장 주기
 }
