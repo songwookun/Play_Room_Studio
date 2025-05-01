@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5754895403075971390}
   - component: {fileID: 7058530840014850707}
   - component: {fileID: 2249487999178085739}
-  - component: {fileID: 6225206344899987941}
   - component: {fileID: 968214086609048684}
   m_Layer: 0
   m_Name: requiredCoins
@@ -126,18 +125,6 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 2.15
---- !u!114 &6225206344899987941
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7785267384047776170}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae873e26be4357a448bd8acbd7e6341c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &968214086609048684
 MonoBehaviour:
   m_ObjectHideFlags: 0
