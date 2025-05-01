@@ -1,7 +1,7 @@
 "PrefabName,",DropChance
-MP,0.3
-requiredCoins,1
-HP-small,0.2
-HP-middle,0.1
-HP-big,0.05
-magnet,1
+MP,0.1
+requiredCoins,0.05
+HP-small,0.07
+HP-middle,0.05
+HP-big,0.01
+magnet,0.05
