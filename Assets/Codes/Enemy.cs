@@ -4,6 +4,13 @@ using UnityEngine;
 
 public enum StatusEffect { None, Burn, Slow }
 
+[System.Serializable]
+public class DropEntry
+{
+    public GameObject prefab;
+    public float dropChance;
+}
+
 public class Enemy : MonoBehaviour
 {
     public float speed;
@@ -20,8 +27,7 @@ public class Enemy : MonoBehaviour
 
     public float rewardExp = 30f;
 
-    public GameObject mpPrefab;
-    public float dropChance = 0.3f;
+    public List<DropEntry> dropTable; // 통합 드랍 테이블
 
     private Coroutine currentDebuff;
 
@@ -34,8 +40,7 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!isLive)
-            return;
+        if (!isLive) return;
 
         Vector2 dirVec = target.position - rigid.position;
         Vector2 nextVec = dirVec.normalized * speed * Time.fixedDeltaTime;
@@ -45,19 +50,10 @@ public class Enemy : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!isLive)
-            return;
+        if (!isLive) return;
+
         Vector3 scale = transform.localScale;
-
-        if (target.position.x < rigid.position.x)
-        {
-            scale.x = Mathf.Abs(scale.x) * -1;
-        }
-        else
-        {
-            scale.x = Mathf.Abs(scale.x);
-        }
-
+        scale.x = (target.position.x < rigid.position.x) ? -Mathf.Abs(scale.x) : Mathf.Abs(scale.x);
         transform.localScale = scale;
     }
 
@@ -89,17 +85,20 @@ public class Enemy : MonoBehaviour
             GameManager.Instance.Kill += 1;
             GameManager.Instance.GainExp(rewardExp);
 
-            TryDropMP();
+            TryDropItems(); // 통합 드랍 처리
 
             gameObject.SetActive(false);
         }
     }
 
-    private void TryDropMP()
+    private void TryDropItems()
     {
-        if (mpPrefab != null && Random.value < dropChance)
+        foreach (var entry in dropTable)
         {
-            Instantiate(mpPrefab, transform.position, Quaternion.identity);
+            if (entry.prefab != null && Random.value < entry.dropChance)
+            {
+                Instantiate(entry.prefab, transform.position, Quaternion.identity);
+            }
         }
     }
 
@@ -128,7 +127,7 @@ public class Enemy : MonoBehaviour
                 break;
 
             case StatusEffect.Slow:
-                float slowFactor = Mathf.Clamp01(1f - (speedReduction / 10f)); // 예: 3이면 30% 감소
+                float slowFactor = Mathf.Clamp01(1f - (speedReduction / 10f));
                 speed *= slowFactor;
                 yield return new WaitForSeconds(duration);
                 speed = originalSpeed;
@@ -137,5 +136,4 @@ public class Enemy : MonoBehaviour
 
         currentDebuff = null;
     }
-
 }

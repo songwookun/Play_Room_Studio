@@ -19,16 +19,17 @@ public class GameManager : MonoBehaviour
     public int level;
     public float Kill;
 
+    public int collectedCoins = 0;
+    public int collectedMP = 0;
+
     private Dictionary<int, float> levelExpDict = new Dictionary<int, float>();
 
     // 일시정지 관련 변수
     private bool isPaused = false;
     public GameObject pausePanel;
-
-    // 버튼 이미지 전환을 위한 변수
-    public Image pauseButtonImage;     // 버튼 안의 Image 컴포넌트
-    public Sprite stopSprite;          // 일시정지 아이콘 (Stop_0)
-    public Sprite startSprite;         // 재생 아이콘 (Start_0)
+    public Image pauseButtonImage;
+    public Sprite stopSprite;
+    public Sprite startSprite;
 
     private void Awake()
     {
@@ -66,7 +67,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.LogWarning($"레벨 {currentLevel}에 대한 경험치 데이터가 없습니다.");
-            return 99999999f; // 없는 레벨은 사실상 레벨업 불가
+            return 99999999f;
         }
     }
 
@@ -108,7 +109,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // 일시정지 토글 및 이미지 변경 함수
+    // 드랍 아이템 처리 함수들
+    public void GainCoin(int amount = 1)
+    {
+        collectedCoins += amount;
+    }
+
+    public void GainMP(int amount = 1)
+    {
+        collectedMP += amount;
+    }
+
+    // 일시정지 토글 및 이미지 변경
     public void TogglePause()
     {
         isPaused = !isPaused;

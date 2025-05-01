@@ -7,32 +7,46 @@ public class MageUnlockManager : MonoBehaviour
     public Button mageButton;
     public GameObject unlockPanel;
     public Button confirmUnlockButton;
-    public int requiredCoins = 30;
+    public Button unlockBackButton;
 
+    public GameObject classSelectPanel;
+    public GameObject startPanel;
+
+    public Image mageButtonImage;          // MageButton의 이미지 컴포넌트
+    public Sprite notAvailableSprite;      // 해금 전 스프라이트
+    public Sprite mageSprite;              // 해금 후 스프라이트
+
+    public int requiredCoins = 30;
     private string unlockKey = "MageUnlocked";
 
     void Start()
     {
-        // Mage 버튼에 클릭 이벤트 연결
         mageButton.onClick.AddListener(OnMageButtonClick);
-        // 해금 확인 버튼에 클릭 이벤트 연결
         confirmUnlockButton.onClick.AddListener(UnlockMage);
+        unlockBackButton.onClick.AddListener(CloseUnlockPanel);
 
-        // 시작 시 UnlockPanel 숨김
         unlockPanel.SetActive(false);
+
+        if (!IsUnlocked())
+        {
+            mageButtonImage.sprite = notAvailableSprite;
+        }
+        else
+        {
+            mageButtonImage.sprite = mageSprite;
+        }
     }
 
     void OnMageButtonClick()
     {
         if (IsUnlocked())
         {
-            // 해금되어 있으면 바로 씬 이동
             SceneManager.LoadScene("MainScenes");
         }
         else
         {
-            // 해금 안되었으면 해금 패널 표시
             unlockPanel.SetActive(true);
+            classSelectPanel.SetActive(false);
         }
     }
 
@@ -42,21 +56,27 @@ public class MageUnlockManager : MonoBehaviour
 
         if (currentCoins >= requiredCoins)
         {
-            // 코인 차감 및 해금 상태 저장
             currentCoins -= requiredCoins;
             PlayerPrefs.SetInt("AncientCoins", currentCoins);
             PlayerPrefs.SetInt(unlockKey, 1);
             PlayerPrefs.Save();
 
-            // 패널 숨기고 씬 이동
+            mageButtonImage.sprite = mageSprite;
+
             unlockPanel.SetActive(false);
             SceneManager.LoadScene("MainScenes");
         }
         else
         {
-            // 코인이 부족하면 콘솔에 메시지 출력
-            Debug.Log("재화가 부족합니다!"); // 메시지를 UI로 보여주고 싶으면 Text 연결 필요
+            Debug.Log("재화가 부족합니다!");
         }
+    }
+
+    void CloseUnlockPanel()
+    {
+        unlockPanel.SetActive(false);
+        classSelectPanel.SetActive(false);
+        startPanel.SetActive(true);
     }
 
     bool IsUnlocked()

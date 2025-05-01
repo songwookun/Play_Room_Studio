@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
-    public enum InfoType { Exp, Level, Kill, Time, Health, MP } 
+    public enum InfoType { Exp, Level, Kill, Time, Health, MP, Coin } // Coin 추가
 
     public InfoType type;
 
@@ -64,7 +64,10 @@ public class HUD : MonoBehaviour
                 }
                 break;
 
-
+            case InfoType.Coin: // 코인 수 표시
+                if (mytext != null)
+                    mytext.text = GameManager.Instance.collectedCoins.ToString();
+                break;
         }
     }
 }

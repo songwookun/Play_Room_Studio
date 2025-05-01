@@ -202,8 +202,11 @@ MonoBehaviour:
   target: {fileID: 135923772104828120, guid: 886909c331e7b7e459169bf4c8ba0216, type: 3}
   isLive: 1
   rewardExp: 30
-  mpPrefab: {fileID: 1439772268583754485, guid: 8eea5471bd6d2604588412f0e95ef4c8, type: 3}
-  dropChance: 0.3
+  dropTable:
+  - prefab: {fileID: 1439772268583754485, guid: 8eea5471bd6d2604588412f0e95ef4c8, type: 3}
+    dropChance: 0
+  - prefab: {fileID: 7785267384047776170, guid: 1823a6c277493004ab34b59e0c546622, type: 3}
+    dropChance: 0
 --- !u!114 &7710382835519969278
 MonoBehaviour:
   m_ObjectHideFlags: 0
