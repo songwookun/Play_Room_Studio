@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.IO;
 
 public class GameManager : MonoBehaviour
@@ -17,7 +18,17 @@ public class GameManager : MonoBehaviour
     public float exp;
     public int level;
     public float Kill;
+
     private Dictionary<int, float> levelExpDict = new Dictionary<int, float>();
+
+    // 일시정지 관련 변수
+    private bool isPaused = false;
+    public GameObject pausePanel;
+
+    // 버튼 이미지 전환을 위한 변수
+    public Image pauseButtonImage;     // 버튼 안의 Image 컴포넌트
+    public Sprite stopSprite;          // 일시정지 아이콘 (Stop_0)
+    public Sprite startSprite;         // 재생 아이콘 (Start_0)
 
     private void Awake()
     {
@@ -70,13 +81,13 @@ public class GameManager : MonoBehaviour
 
         StringReader reader = new StringReader(csvFile.text);
 
-        bool isFirstLine = true; // 추가
+        bool isFirstLine = true;
         while (true)
         {
             string line = reader.ReadLine();
             if (line == null) break;
 
-            if (isFirstLine)  // 첫 줄 (헤더) 스킵
+            if (isFirstLine)
             {
                 isFirstLine = false;
                 continue;
@@ -95,5 +106,20 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    // 일시정지 토글 및 이미지 변경 함수
+    public void TogglePause()
+    {
+        isPaused = !isPaused;
+        Time.timeScale = isPaused ? 0f : 1f;
+
+        if (pausePanel != null)
+            pausePanel.SetActive(isPaused);
+
+        if (pauseButtonImage != null)
+            pauseButtonImage.sprite = isPaused ? startSprite : stopSprite;
+
+        Debug.Log(isPaused ? "게임 일시정지" : "게임 재개");
     }
 }
