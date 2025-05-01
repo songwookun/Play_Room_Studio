@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour
 
     public float rewardExp = 30f;
 
-    public List<DropEntry> dropTable; // 통합 드랍 테이블
+    public List<DropEntry> dropTable = new List<DropEntry>(); // 드랍 테이블
 
     private Coroutine currentDebuff;
 
@@ -36,6 +36,11 @@ public class Enemy : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         spriter = GetComponent<SpriteRenderer>();
+    }
+
+    private void Start()
+    {
+        LoadDropTableFromCSV(); // CSV에서 드랍 테이블 불러오기
     }
 
     private void FixedUpdate()
@@ -85,7 +90,7 @@ public class Enemy : MonoBehaviour
             GameManager.Instance.Kill += 1;
             GameManager.Instance.GainExp(rewardExp);
 
-            TryDropItems(); // 통합 드랍 처리
+            TryDropItems();
 
             gameObject.SetActive(false);
         }
@@ -98,6 +103,51 @@ public class Enemy : MonoBehaviour
             if (entry.prefab != null && Random.value < entry.dropChance)
             {
                 Instantiate(entry.prefab, transform.position, Quaternion.identity);
+            }
+        }
+    }
+
+    private void LoadDropTableFromCSV()
+    {
+        dropTable.Clear();
+
+        TextAsset csvFile = Resources.Load<TextAsset>("DropTable");
+        if (csvFile == null)
+        {
+            Debug.LogError("DropTable.csv 파일을 Resources 폴더에서 찾을 수 없습니다.");
+            return;
+        }
+
+        string[] lines = csvFile.text.Split('\n');
+
+        for (int i = 1; i < lines.Length; i++) // 첫 줄은 헤더
+        {
+            string line = lines[i].Trim();
+            if (string.IsNullOrEmpty(line)) continue;
+
+            string[] parts = line.Split(',');
+
+            if (parts.Length >= 2)
+            {
+                string prefabName = parts[0].Trim();
+                if (!float.TryParse(parts[1].Trim(), out float chance))
+                {
+                    Debug.LogWarning($"확률 변환 실패: {line}");
+                    continue;
+                }
+
+                GameObject prefab = Resources.Load<GameObject>(prefabName);
+                if (prefab == null)
+                {
+                    Debug.LogWarning($"프리팹 로드 실패: {prefabName}");
+                    continue;
+                }
+
+                dropTable.Add(new DropEntry
+                {
+                    prefab = prefab,
+                    dropChance = chance
+                });
             }
         }
     }
