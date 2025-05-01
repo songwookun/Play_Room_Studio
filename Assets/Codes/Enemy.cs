@@ -128,7 +128,8 @@ public class Enemy : MonoBehaviour
                 break;
 
             case StatusEffect.Slow:
-                speed -= speedReduction;
+                float slowFactor = Mathf.Clamp01(1f - (speedReduction / 10f)); // 예: 3이면 30% 감소
+                speed *= slowFactor;
                 yield return new WaitForSeconds(duration);
                 speed = originalSpeed;
                 break;
@@ -136,4 +137,5 @@ public class Enemy : MonoBehaviour
 
         currentDebuff = null;
     }
+
 }
