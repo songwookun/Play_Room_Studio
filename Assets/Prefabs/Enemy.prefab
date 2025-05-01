@@ -198,6 +198,7 @@ MonoBehaviour:
   - {fileID: 9100000, guid: 845be183ce1d37941b360f1ba0ca132e, type: 2}
   - {fileID: 9100000, guid: c1e6f55dbdf2fe64193dbe2363ffc7d6, type: 2}
   - {fileID: 9100000, guid: d7d1d02af4e4fc740812b3b1671a3023, type: 2}
+  - {fileID: 9100000, guid: 39c4f7af76b8f1541a9c83d758de641c, type: 2}
   target: {fileID: 135923772104828120, guid: 886909c331e7b7e459169bf4c8ba0216, type: 3}
   isLive: 1
   rewardExp: 30
