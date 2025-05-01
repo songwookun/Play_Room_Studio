@@ -76,7 +76,6 @@ public class PlayerMove : MonoBehaviour
                 //[치트 삽입] 무적 모드 활성화 시 체력 감소 건너뜀
                 if (CheatManager.Instance != null && CheatManager.Instance.IsNoDamageActive())
                 {
-                    Debug.Log("[치트] 무적 모드로 인해 체력 감소 없음");
                     return;
                 }
 

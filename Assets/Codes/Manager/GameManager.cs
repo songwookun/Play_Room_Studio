@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
     public float exp;
     public int level;
     public float Kill;
-
     private Dictionary<int, float> levelExpDict = new Dictionary<int, float>();
 
     private void Awake()
@@ -97,5 +96,4 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
 }
