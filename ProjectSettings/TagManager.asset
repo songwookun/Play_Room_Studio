@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Skill
   - MP
+  - item
   layers:
   - Default
   - TransparentFX
