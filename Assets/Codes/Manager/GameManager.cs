@@ -120,6 +120,11 @@ public class GameManager : MonoBehaviour
         collectedMP += amount;
     }
 
+    public void Heal(float percent)
+    {
+        health = Mathf.Min(health + (int)(maxHealth * percent), maxHealth); // float → int 변환
+    }
+
     // 일시정지 토글 및 이미지 변경
     public void TogglePause()
     {

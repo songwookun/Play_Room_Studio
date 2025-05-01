@@ -5,7 +5,10 @@ public class DropItem : MonoBehaviour
     public enum DropItemType
     {
         Coin,
-        MP
+        MP,
+        HpSmall,   // 25%
+        HpMiddle,  // 50%
+        HpBig      // 100%
     }
 
     public DropItemType itemType;
@@ -21,6 +24,15 @@ public class DropItem : MonoBehaviour
                 break;
             case DropItemType.MP:
                 GameManager.Instance.GainMP();
+                break;
+            case DropItemType.HpSmall:
+                GameManager.Instance.Heal(0.25f);
+                break;
+            case DropItemType.HpMiddle:
+                GameManager.Instance.Heal(0.5f);
+                break;
+            case DropItemType.HpBig:
+                GameManager.Instance.Heal(1f);
                 break;
         }
 

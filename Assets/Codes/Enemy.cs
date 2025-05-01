@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour
 
     public float rewardExp = 30f;
 
-    public List<DropEntry> dropTable = new List<DropEntry>(); // 드랍 테이블
+    public List<DropEntry> dropTable = new List<DropEntry>();
 
     private Coroutine currentDebuff;
 
@@ -40,7 +40,7 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        LoadDropTableFromCSV(); // CSV에서 드랍 테이블 불러오기
+        LoadDropTableFromCSV();
     }
 
     private void FixedUpdate()
@@ -120,7 +120,7 @@ public class Enemy : MonoBehaviour
 
         string[] lines = csvFile.text.Split('\n');
 
-        for (int i = 1; i < lines.Length; i++) // 첫 줄은 헤더
+        for (int i = 1; i < lines.Length; i++)
         {
             string line = lines[i].Trim();
             if (string.IsNullOrEmpty(line)) continue;

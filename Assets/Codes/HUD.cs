@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour
 {
-    public enum InfoType { Exp, Level, Kill, Time, Health, MP, Coin } // Coin 추가
+    public enum InfoType { Exp, Level, Kill, Time, Health, MP, Coin }
 
     public InfoType type;
 
@@ -60,11 +60,11 @@ public class HUD : MonoBehaviour
                 {
                     float curHealth = GameManager.Instance.health;
                     float maxHealth = GameManager.Instance.maxHealth;
-                    myslider.value = curHealth / maxHealth;
+                    myslider.value = (float)curHealth / maxHealth; // float 캐스팅
                 }
                 break;
 
-            case InfoType.Coin: // 코인 수 표시
+            case InfoType.Coin:
                 if (mytext != null)
                     mytext.text = GameManager.Instance.collectedCoins.ToString();
                 break;

@@ -1,3 +1,6 @@
 "PrefabName,",DropChance
 MP,0.3
 requiredCoins,1
+HP-small,0.2
+HP-middle,0.1
+HP-big,0.05
