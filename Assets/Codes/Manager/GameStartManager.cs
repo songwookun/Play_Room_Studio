@@ -10,33 +10,40 @@ public class GameStartManager : MonoBehaviour
     public Button startButton;
     public Button warriorButton;
     public Button mageButton;
-    public Button backButton; // 뒤로가기 버튼 변수 추가
+    public Button backButton; // 뒤로가기 버튼
 
-    void Start()
+    void Awake()
     {
-        startButton.onClick.AddListener(OnStartGame);
-        warriorButton.onClick.AddListener(() => OnClassSelected("Warrior"));
-        // mageButton.onClick은 MageUnlockManager에서 처리
+        Debug.Log("GameStartManager Awake() 호출됨");
 
-        backButton.onClick.AddListener(OnBackToStart); //  이벤트 연결
+        startButton.onClick.AddListener(() => {
+            Debug.Log("Start 버튼 클릭됨");
+            OnStartGame();
+        });
 
-        classSelectPanel.SetActive(false); // 처음엔 캐릭터 선택 숨김
+        warriorButton.onClick.AddListener(() => {
+            Debug.Log("WarriorButton 클릭됨");
+            OnClassSelected("Warrior");
+        });
     }
 
     void OnStartGame()
     {
+        Debug.Log("Start 버튼 클릭됨");
         startPanel.SetActive(false);
         classSelectPanel.SetActive(true);
     }
 
-    void OnBackToStart() // 뒤로가기 동작
+    void OnBackToStart()
     {
+        Debug.Log("뒤로가기 버튼 클릭됨");
         classSelectPanel.SetActive(false);
         startPanel.SetActive(true);
     }
 
     void OnClassSelected(string className)
     {
+        Debug.Log("클래스 선택됨: " + className);
         PlayerPrefs.SetString("SelectedClass", className);
         SceneManager.LoadScene("MainScenes");
     }
