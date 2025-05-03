@@ -14,6 +14,7 @@ public class SkillData
     public float tickDamage;
     public float speedReduction;
     public int cost;
+    public float PlayerSpeed;
 }
 
 public static class SkillDataLoader
@@ -52,8 +53,8 @@ public static class SkillDataLoader
         {
             if (string.IsNullOrWhiteSpace(lines[i])) continue;
 
-            string[] parts = lines[i].Split(',');
-            if (parts.Length < 9) continue;
+            string[] parts = lines[i].Trim().Split(',');
+            if (parts.Length < 10) continue; // PlayerSpeed Æ÷ÇÔ
 
             try
             {
@@ -67,7 +68,8 @@ public static class SkillDataLoader
                     effectDuration = float.Parse(parts[5]),
                     tickDamage = float.Parse(parts[6]),
                     speedReduction = float.Parse(parts[7]),
-                    cost = int.Parse(parts[8])
+                    cost = int.Parse(parts[8]),
+                    PlayerSpeed = float.Parse(parts[9]) 
                 };
                 skillDatas[id] = data;
             }
