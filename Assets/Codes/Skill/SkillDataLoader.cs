@@ -15,6 +15,7 @@ public class SkillData
     public float speedReduction;
     public int cost;
     public float PlayerSpeed;
+    public float PlayerBerserk;
 }
 
 public static class SkillDataLoader
@@ -54,7 +55,7 @@ public static class SkillDataLoader
             if (string.IsNullOrWhiteSpace(lines[i])) continue;
 
             string[] parts = lines[i].Trim().Split(',');
-            if (parts.Length < 10) continue; // PlayerSpeed 포함
+            if (parts.Length < 11) continue; // PlayerSpeed 포함
 
             try
             {
@@ -69,7 +70,8 @@ public static class SkillDataLoader
                     tickDamage = float.Parse(parts[6]),
                     speedReduction = float.Parse(parts[7]),
                     cost = int.Parse(parts[8]),
-                    PlayerSpeed = float.Parse(parts[9]) 
+                    PlayerSpeed = float.Parse(parts[9]),
+                    PlayerBerserk = float.Parse(parts[10])
                 };
                 skillDatas[id] = data;
             }

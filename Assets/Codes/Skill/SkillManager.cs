@@ -4,11 +4,13 @@ using System.Collections.Generic;
 
 public class SkillManager : MonoBehaviour
 {
-    public GameObject[] skillPrefabs; // 0: Fire, 1: Ice 등
+    public GameObject[] skillPrefabs;
     public MPManager mpManager;
 
     private Dictionary<int, SkillData> skillDatas;
     private bool isSpeedBoosted = false;
+    private bool isBerserk = false;
+    private float berserkMultiplier = 1.0f;
 
     private void Start()
     {
@@ -17,42 +19,37 @@ public class SkillManager : MonoBehaviour
 
     void OnSkillDataLoaded()
     {
-        Debug.Log("SkillData 로딩 완료");
         skillDatas = SkillDataLoader.skillDatas;
+        Debug.Log("SkillData 로딩 완료");
     }
 
     public void UseSkill(int skillId)
     {
-        if (skillDatas == null)
-        {
-            Debug.LogError("SkillData가 아직 로딩되지 않았습니다.");
-            return;
-        }
-
-        if (!skillDatas.ContainsKey(skillId))
-        {
-            Debug.LogWarning($"Skill ID {skillId}가 존재하지 않습니다.");
-            return;
-        }
+        if (skillDatas == null || !skillDatas.ContainsKey(skillId)) return;
 
         SkillData data = skillDatas[skillId];
 
-        // MP 소모 체크
         if (!mpManager.UseMP(data.cost))
         {
             Debug.Log("MP 부족!");
             return;
         }
 
-        // Boost: 프리팹 없이 작동
-        if (data.effectType == "Boost")
+        // Boost (이속 증가)
+        if (data.effectType == "Boost" && !isSpeedBoosted)
         {
-            if (!isSpeedBoosted)
-                StartCoroutine(ApplySpeedBoost(data));
+            StartCoroutine(ApplySpeedBoost(data));
             return;
         }
 
-        // 나머지 스킬은 프리팹 필요
+        // Berserk (스킬 데미지 증가)
+        if (data.effectType == "Berserk" && !isBerserk)
+        {
+            StartCoroutine(ApplyBerserk(data));
+            return;
+        }
+
+        // 공격형 스킬 처리
         if (skillPrefabs.Length <= skillId || skillPrefabs[skillId] == null)
         {
             Debug.LogError($"skillPrefabs[{skillId}]가 존재하지 않거나 null입니다.");
@@ -69,7 +66,7 @@ public class SkillManager : MonoBehaviour
         SkillCollider collider = skill.GetComponent<SkillCollider>();
         if (collider != null)
         {
-            collider.damage = data.damage;
+            collider.damage = data.damage * berserkMultiplier;
             collider.effectType = data.effectType;
             collider.effectDuration = data.effectDuration;
             collider.tickDamage = data.tickDamage;
@@ -82,21 +79,29 @@ public class SkillManager : MonoBehaviour
     private IEnumerator ApplySpeedBoost(SkillData data)
     {
         isSpeedBoosted = true;
-
         var player = GameManager.Instance.player;
         float originalSpeed = player.speed;
 
-        float boostedSpeed = originalSpeed * (1f + data.PlayerSpeed / 100f);
-        player.speed = boostedSpeed;
-
-        Debug.Log($"[Boost] {data.PlayerSpeed}% 이속 증가 적용됨 ({data.skillDurat}초)");
-
+        player.speed = originalSpeed * (1f + data.PlayerSpeed / 100f);
         yield return new WaitForSeconds(data.skillDurat);
 
         player.speed = originalSpeed;
         isSpeedBoosted = false;
+    }
 
-        Debug.Log("[Boost] 효과 종료: 이속 원래대로 복귀");
+    private IEnumerator ApplyBerserk(SkillData data)
+    {
+        isBerserk = true;
+        berserkMultiplier = 1f + data.PlayerBerserk / 100f;
+
+        Debug.Log($"[Berserk] 대미지 +{data.PlayerBerserk}% 적용됨 ({data.skillDurat}초)");
+
+        yield return new WaitForSeconds(data.skillDurat);
+
+        berserkMultiplier = 1.0f;
+        isBerserk = false;
+
+        Debug.Log("[Berserk] 종료: 대미지 원래대로 복귀");
     }
 
     private Vector3 PlayerPosition()
