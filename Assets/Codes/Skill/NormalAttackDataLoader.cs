@@ -1,26 +1,47 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public static class NormalAttackDataLoader
 {
-    public static Dictionary<int, NormalAttackData> LoadData()
-    {
-        string path = Application.dataPath + "/Datafile/NormalAttackData.csv";
-        Dictionary<int, NormalAttackData> data = new Dictionary<int, NormalAttackData>();
+    public static Dictionary<int, NormalAttackData> normalAttackData = new Dictionary<int, NormalAttackData>();
 
-        if (!File.Exists(path))
+    public static IEnumerator LoadData(System.Action onComplete = null)
+    {
+        string fileName = "NormalAttackData.csv";
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+        string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
+        UnityWebRequest www = UnityWebRequest.Get(filePath);
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
         {
-            Debug.LogError("NormalAttackData.csv 파일이 없습니다!");
-            return data;
+            Debug.LogError("NormalAttackData.csv 로딩 실패: " + www.error);
+            yield break;
         }
 
-        string[] lines = File.ReadAllLines(path);
+        string[] lines = www.downloadHandler.text.Split('\n');
+#else
+        string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
+
+        if (!File.Exists(filePath))
+        {
+            Debug.LogError("NormalAttackData.csv 파일 없음: " + filePath);
+            yield break;
+        }
+
+        string[] lines = File.ReadAllLines(filePath);
+#endif
 
         for (int i = 1; i < lines.Length; i++)
         {
             if (string.IsNullOrWhiteSpace(lines[i])) continue;
+
             string[] parts = lines[i].Split(',');
+            if (parts.Length < 4) continue;
 
             NormalAttackData entry = new NormalAttackData
             {
@@ -30,9 +51,9 @@ public static class NormalAttackDataLoader
                 damge = float.Parse(parts[3])
             };
 
-            data[entry.id] = entry;
+            normalAttackData[entry.id] = entry;
         }
 
-        return data;
+        onComplete?.Invoke();
     }
 }

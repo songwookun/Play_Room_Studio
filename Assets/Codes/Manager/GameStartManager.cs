@@ -45,6 +45,6 @@ public class GameStartManager : MonoBehaviour
     {
         Debug.Log("클래스 선택됨: " + className);
         PlayerPrefs.SetString("SelectedClass", className);
-        SceneManager.LoadScene("MainScenes");
+        SceneManager.LoadScene("GameScene");
     }
 }

@@ -10,43 +10,67 @@ public class SkillManager : MonoBehaviour
 
     private void Start()
     {
-        skillDatas = SkillDataLoader.LoadSkillDatas();
+        StartCoroutine(SkillDataLoader.LoadSkillDatas(OnSkillDataLoaded));
+    }
+
+    void OnSkillDataLoaded()
+    {
+        Debug.Log("SkillData 로딩 완료");
+
+        skillDatas = SkillDataLoader.skillDatas; // 딕셔너리 할당
+
+        if (skillDatas.TryGetValue(0, out SkillData skill))
+        {
+            Debug.Log($"ID: 0, 데미지: {skill.damage}, 비용: {skill.cost}");
+        }
     }
 
     public void UseSkill(int skillId)
     {
+        if (skillDatas == null)
+        {
+            Debug.LogError("SkillData가 아직 로딩되지 않았습니다.");
+            return;
+        }
+
+        if (!skillDatas.ContainsKey(skillId))
+        {
+            Debug.LogWarning($"Skill ID {skillId}가 존재하지 않습니다.");
+            return;
+        }
+
         SkillData data = skillDatas[skillId];
-        if (!mpManager.UseMP(data.cost)) 
+
+        if (!mpManager.UseMP(data.cost))
         {
             Debug.Log("MP 부족!");
             return;
         }
 
-
-        if (!skillDatas.ContainsKey(skillId)) return;
+        if (skillPrefabs.Length <= skillId || skillPrefabs[skillId] == null)
+        {
+            Debug.LogError($"skillPrefabs[{skillId}]가 존재하지 않거나 null입니다.");
+            return;
+        }
 
         GameObject skill = Instantiate(skillPrefabs[skillId], PlayerPosition(), Quaternion.identity);
 
-        //플레이어 방향에 따라 Y축 반전 처리
         if (GameManager.Instance.player.Direction > 0)
-            skill.transform.rotation = Quaternion.Euler(0, 180f, 0); // 오른쪽 바라볼 때 반전
+            skill.transform.rotation = Quaternion.Euler(0, 180f, 0);
         else
-            skill.transform.rotation = Quaternion.identity; // 왼쪽은 그대로
+            skill.transform.rotation = Quaternion.identity;
 
-        // skillCollider 세팅
         SkillCollider collider = skill.GetComponent<SkillCollider>();
         if (collider != null)
         {
-            SkillData sd = skillDatas[skillId];
-            collider.damage = sd.damage;
-            collider.effectType = sd.effectType;
-            collider.effectDuration = sd.effectDuration;
-            collider.tickDamage = sd.tickDamage;
-            collider.speedReduction = sd.speedReduction;
+            collider.damage = data.damage;
+            collider.effectType = data.effectType;
+            collider.effectDuration = data.effectDuration;
+            collider.tickDamage = data.tickDamage;
+            collider.speedReduction = data.speedReduction;
         }
 
-        //일정 시간 뒤 자동 제거
-        Destroy(skill, skillDatas[skillId].skillDurat);
+        Destroy(skill, data.skillDurat);
     }
 
     private Vector3 PlayerPosition()

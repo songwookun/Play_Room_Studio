@@ -1,55 +1,63 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using UnityEngine.Networking;
+using System.Collections;
 
 public class SkillData
 {
     public float attackInterval;
     public float skillDurat;
     public float damage;
-
     public string effectType;
     public float effectDuration;
     public float tickDamage;
     public float speedReduction;
-
-    public int cost; 
+    public int cost;
 }
-
 
 public static class SkillDataLoader
 {
-    public static Dictionary<int, SkillData> LoadSkillDatas()
+    public static Dictionary<int, SkillData> skillDatas = new Dictionary<int, SkillData>();
+
+    public static IEnumerator LoadSkillDatas(System.Action onComplete = null)
     {
-        string filePath = Application.dataPath + "/Datafile/SkillData.csv";
-        Dictionary<int, SkillData> skillDatas = new Dictionary<int, SkillData>();
+        string fileName = "SkillData.csv";
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+        string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
+        UnityWebRequest www = UnityWebRequest.Get(filePath);
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError("SkillData.csv 로딩 실패: " + www.error);
+            yield break;
+        }
+
+        string[] lines = www.downloadHandler.text.Split('\n');
+#else
+        string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
 
         if (!File.Exists(filePath))
         {
-            Debug.LogError("SkillData.csv 파일이 Assets/Datafile/ 폴더에 없습니다!");
-            return skillDatas;
+            Debug.LogError("SkillData.csv 파일 없음: " + filePath);
+            yield break;
         }
 
         string[] lines = File.ReadAllLines(filePath);
+#endif
 
         for (int i = 1; i < lines.Length; i++)
         {
-            if (string.IsNullOrWhiteSpace(lines[i]))
-                continue;
+            if (string.IsNullOrWhiteSpace(lines[i])) continue;
 
             string[] parts = lines[i].Split(',');
-
-            if (parts.Length < 8)
-            {
-                Debug.LogWarning($"SkillData.csv {i + 1}번째 줄에 필드가 부족합니다. 건너뜁니다. ({parts.Length}/8)");
-                continue;
-            }
+            if (parts.Length < 9) continue;
 
             try
             {
                 int id = int.Parse(parts[0]);
-
                 SkillData data = new SkillData
                 {
                     attackInterval = float.Parse(parts[1]),
@@ -59,18 +67,16 @@ public static class SkillDataLoader
                     effectDuration = float.Parse(parts[5]),
                     tickDamage = float.Parse(parts[6]),
                     speedReduction = float.Parse(parts[7]),
-                    cost = int.Parse(parts[8]) // ?? cost 추가
+                    cost = int.Parse(parts[8])
                 };
-
-
                 skillDatas[id] = data;
             }
             catch (System.Exception ex)
             {
-                Debug.LogError($" SkillData.csv {i + 1}번째 줄 파싱 중 오류: {ex.Message}");
+                Debug.LogError($"SkillData 파싱 오류 (줄 {i + 1}): {ex.Message}");
             }
         }
 
-        return skillDatas;
+        onComplete?.Invoke();
     }
 }

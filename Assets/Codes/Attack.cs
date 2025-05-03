@@ -9,15 +9,24 @@ public class Attack : MonoBehaviour
 
     private PlayerMove playerMove;
     private SPUM_Prefabs spum;
-    private Dictionary<int, NormalAttackData> attackDatas;
+    private Dictionary<int, NormalAttackData> attackDatas = new Dictionary<int, NormalAttackData>(); //  초기화
 
     private void Start()
     {
         playerMove = GetComponent<PlayerMove>();
         spum = GetComponentInParent<SPUM_Prefabs>();
-        attackDatas = NormalAttackDataLoader.LoadData();
 
-        StartCoroutine(AttackRoutine());
+        // 데이터 로드가 완료된 후 코루틴 시작
+        StartCoroutine(NormalAttackDataLoader.LoadData(OnNormalAttackDataLoaded));
+    }
+
+    void OnNormalAttackDataLoaded()
+    {
+        Debug.Log("NormalAttackData 로딩 완료");
+
+        attackDatas = NormalAttackDataLoader.normalAttackData; //  데이터 저장
+
+        StartCoroutine(AttackRoutine()); // 데이터가 준비된 후에만 실행
     }
 
     IEnumerator AttackRoutine()
@@ -26,8 +35,11 @@ public class Attack : MonoBehaviour
         {
             for (int i = 0; i < skillPrefabs.Count; i++)
             {
-                if (!attackDatas.ContainsKey(i) || skillPrefabs[i] == null)
+                if (skillPrefabs[i] == null || !attackDatas.ContainsKey(i))
+                {
+                    Debug.LogWarning($"skillPrefabs[{i}] 또는 공격 데이터 없음");
                     continue;
+                }
 
                 NormalAttackData current = attackDatas[i];
 
@@ -36,14 +48,14 @@ public class Attack : MonoBehaviour
 
                 GameObject slash = Instantiate(skillPrefabs[i], attackPoint.position, Quaternion.identity);
                 SkillCollider skillCollider = slash.AddComponent<SkillCollider>();
-                skillCollider.damage = current.damge; // CSV 열 이름에 맞춤 (오타 있음 주의)
+                skillCollider.damage = current.damge;
 
                 if (playerMove.Direction > 0)
                     slash.transform.rotation = Quaternion.Euler(0, 180f, 0);
                 else
                     slash.transform.rotation = Quaternion.identity;
 
-                Destroy(slash, current.slashDurat); // CSV 열 이름에 맞춤 (SlashDuration → slashDurat)
+                Destroy(slash, current.slashDurat);
 
                 yield return new WaitForSeconds(0.2f);
 
@@ -55,7 +67,7 @@ public class Attack : MonoBehaviour
                         spum.PlayAnimation(PlayerState.IDLE, 0);
                 }
 
-                yield return new WaitForSeconds(current.attackInte - 0.2f); // 쿨타임 (AttackInterval → attackInte)
+                yield return new WaitForSeconds(current.attackInte - 0.2f);
             }
         }
     }
