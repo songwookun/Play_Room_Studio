@@ -129,14 +129,45 @@ public class GameManager : MonoBehaviour
     public void TogglePause()
     {
         isPaused = !isPaused;
+
         Time.timeScale = isPaused ? 0f : 1f;
+        pausePanel.SetActive(isPaused);
+        pauseButtonImage.sprite = isPaused ? startSprite : stopSprite;
 
+        // 입력/이동 차단
+        player.enabled = !isPaused;
+
+        // 애니메이터 끄기
+        player.GetComponent<Animator>().enabled = !isPaused;
+
+        // 전체 사운드 일시정지
+        AudioListener.pause = isPaused;
+
+        Debug.Log(isPaused ? "게임 완전 정지" : "게임 재개");
+    }
+
+    public void OnClickResumeButton()
+    {
+        // 게임 일시정지 해제
+        isPaused = false;
+        Time.timeScale = 1f;
+
+        // 팝업 숨기기
         if (pausePanel != null)
-            pausePanel.SetActive(isPaused);
+            pausePanel.SetActive(false);
 
+        // 정지 버튼 이미지 복원 
         if (pauseButtonImage != null)
-            pauseButtonImage.sprite = isPaused ? startSprite : stopSprite;
+            pauseButtonImage.sprite = stopSprite;
 
-        Debug.Log(isPaused ? "게임 일시정지" : "게임 재개");
+        // 플레이어 스크립트 다시 활성화
+        if (player != null)
+        {
+            player.enabled = true;
+
+            Animator anim = player.GetComponent<Animator>();
+            if (anim != null)
+                anim.enabled = true;
+        }
     }
 }
