@@ -45,6 +45,9 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         gameTime += Time.deltaTime;
+
+        //체력 0일 때 GameOver 호출
+        CheckGameOver();
     }
 
     public void GainExp(float amount)
@@ -168,6 +171,15 @@ public class GameManager : MonoBehaviour
             Animator anim = player.GetComponent<Animator>();
             if (anim != null)
                 anim.enabled = true;
+        }
+    }
+
+    // 체력 0이면 GameOver 호출
+    public void CheckGameOver()
+    {
+        if (health <= 0 && !UIManager.Instance.gameOverPanel.activeSelf)
+        {
+            UIManager.Instance.ShowGameOver();
         }
     }
 }
