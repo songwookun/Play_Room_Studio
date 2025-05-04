@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public class SkillManager : MonoBehaviour
 {
     public GameObject[] skillPrefabs;
+    public GameObject fireBoomZoneObject;
+    public GameObject fireBoomProjectilePrefab;
     public MPManager mpManager;
 
     private Dictionary<int, SkillData> skillDatas;
@@ -20,7 +22,7 @@ public class SkillManager : MonoBehaviour
     void OnSkillDataLoaded()
     {
         skillDatas = SkillDataLoader.skillDatas;
-        Debug.Log("SkillData ∑Œµ˘ øœ∑·");
+        Debug.Log("SkillData Î°úÎî© ÏôÑÎ£å");
     }
 
     public void UseSkill(int skillId)
@@ -31,28 +33,31 @@ public class SkillManager : MonoBehaviour
 
         if (!mpManager.UseMP(data.cost))
         {
-            Debug.Log("MP ∫Œ¡∑!");
+            Debug.Log("MP Î∂ÄÏ°±!");
             return;
         }
 
-        // Boost (¿Ãº” ¡ı∞°)
         if (data.effectType == "Boost" && !isSpeedBoosted)
         {
             StartCoroutine(ApplySpeedBoost(data));
             return;
         }
 
-        // Berserk (Ω∫≈≥ µ•πÃ¡ˆ ¡ı∞°)
         if (data.effectType == "Berserk" && !isBerserk)
         {
             StartCoroutine(ApplyBerserk(data));
             return;
         }
 
-        // ∞¯∞›«¸ Ω∫≈≥ √≥∏Æ
+        if (skillId == 4)
+        {
+            StartCoroutine(ActivateFireBoomZoneAndShoot(data));
+            return;
+        }
+
         if (skillPrefabs.Length <= skillId || skillPrefabs[skillId] == null)
         {
-            Debug.LogError($"skillPrefabs[{skillId}]∞° ¡∏¿Á«œ¡ˆ æ ∞≈≥™ null¿‘¥œ¥Ÿ.");
+            Debug.LogError($"skillPrefabs[{skillId}]Í∞Ä Ï°¥Ïû¨ÌïòÏßÄ ÏïäÍ±∞ÎÇò nullÏûÖÎãàÎã§.");
             return;
         }
 
@@ -94,14 +99,83 @@ public class SkillManager : MonoBehaviour
         isBerserk = true;
         berserkMultiplier = 1f + data.PlayerBerserk / 100f;
 
-        Debug.Log($"[Berserk] ¥ÎπÃ¡ˆ +{data.PlayerBerserk}% ¿˚øÎµ  ({data.skillDurat}√ )");
-
+        Debug.Log($"[Berserk] Îç∞ÎØ∏ÏßÄ +{data.PlayerBerserk}% Ï†ÅÏö©Îê® ({data.skillDurat}Ï¥à)");
         yield return new WaitForSeconds(data.skillDurat);
 
         berserkMultiplier = 1.0f;
         isBerserk = false;
 
-        Debug.Log("[Berserk] ¡æ∑·: ¥ÎπÃ¡ˆ ø¯∑°¥Î∑Œ ∫π±Õ");
+        Debug.Log("[Berserk] Ï¢ÖÎ£å: Îç∞ÎØ∏ÏßÄ ÏõêÎûòÎåÄÎ°ú Î≥µÍ∑Ä");
+    }
+
+    private IEnumerator ActivateFireBoomZoneAndShoot(SkillData data)
+    {
+        if (fireBoomZoneObject != null)
+            fireBoomZoneObject.SetActive(true);
+
+        Vector3[] directions = {
+            Vector3.right,
+            Vector3.left,
+            Vector3.up,
+            Vector3.down
+        };
+
+        foreach (Vector3 dir in directions)
+        {
+            GameObject fire = Instantiate(fireBoomProjectilePrefab, PlayerPosition(), Quaternion.identity);
+
+            Rigidbody2D rb = fire.GetComponent<Rigidbody2D>();
+            if (rb != null)
+                rb.linearVelocity = dir * 5f;
+
+            // Î∞©Ìñ• ÌöåÏ†Ñ
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            fire.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+            // Î∞©Ìñ•Ïóê ÎßûÏ∂∞ Sprite Îí§ÏßëÍ∏∞
+            SpriteRenderer sr = fire.GetComponent<SpriteRenderer>();
+            if (sr != null)
+            {
+                if (dir == Vector3.right)
+                {
+                    sr.flipX = false;
+                    sr.flipY = false;
+                }
+                else if (dir == Vector3.left)
+                {
+                    sr.flipX = true;
+                    sr.flipY = false;
+                }
+                else if (dir == Vector3.up)
+                {
+                    sr.flipX = false;
+                    sr.flipY = true;
+                }
+                else if (dir == Vector3.down)
+                {
+                    sr.flipX = true;
+                    sr.flipY = true;
+                }
+            }
+
+            // SkillCollider ÏÑ§Ï†ï
+            SkillCollider collider = fire.GetComponent<SkillCollider>();
+            if (collider != null)
+            {
+                collider.damage = data.damage * berserkMultiplier;
+                collider.effectType = data.effectType;
+                collider.effectDuration = data.effectDuration;
+                collider.tickDamage = data.tickDamage;
+                collider.speedReduction = data.speedReduction;
+            }
+
+            Destroy(fire, 2f);
+        }
+
+        yield return new WaitForSeconds(data.skillDurat);
+
+        if (fireBoomZoneObject != null)
+            fireBoomZoneObject.SetActive(false);
     }
 
     private Vector3 PlayerPosition()

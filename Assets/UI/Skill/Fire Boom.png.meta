@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 8e036a68fa562744d8ed8805560f42ac
+guid: 68a65a31a4f975944b8a08433c716ef2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1873632880460055444
-    second: BERSERK_0
+      213: -1986304040766905429
+    second: Fire Boom_0
+  - first:
+      213: 4883812735702652145
+    second: Fire Boom_1
+  - first:
+      213: -9166897383889946074
+    second: Fire Boom_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +119,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BERSERK_0
+      name: Fire Boom_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 1024
-        height: 1536
+        x: 8
+        y: 12
+        width: 316
+        height: 474
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +134,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 49340578d2b700a10800000000000000
-      internalID: 1873632880460055444
+      spriteID: ba36a22bffa3f64e0800000000000000
+      internalID: -1986304040766905429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fire Boom_1
+      rect:
+        serializedVersion: 2
+        x: 177
+        y: 476
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f4d51dbec9c6c340800000000000000
+      internalID: 4883812735702652145
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fire Boom_2
+      rect:
+        serializedVersion: 2
+        x: 194
+        y: 480
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62a38ccc563a8c080800000000000000
+      internalID: -9166897383889946074
       vertices: []
       indices: 
       edges: []
