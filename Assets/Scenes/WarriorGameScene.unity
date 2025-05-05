@@ -12247,6 +12247,51 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1093978719
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1093978721}
+  - component: {fileID: 1093978720}
+  m_Layer: 0
+  m_Name: CoinUIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1093978720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093978719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21499c6315586bc47a5e1a81c63cdaaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coinText: {fileID: 1151282453}
+--- !u!4 &1093978721
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093978719}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2203.082, y: 1744.0864, z: -8.046376}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1151282450
 GameObject:
   m_ObjectHideFlags: 0
@@ -24206,6 +24251,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7400000, guid: 5187132de96c18244b62b7d6e2580323, type: 2}
     - target: {fileID: 478980621996615014, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
+      propertyPath: 'MOVE_List.Array.data[1]'
+      value: 
+      objectReference: {fileID: 7400000, guid: 5187132de96c18244b62b7d6e2580323, type: 2}
+    - target: {fileID: 478980621996615014, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
       propertyPath: 'DEATH_List.Array.data[0]'
       value: 
       objectReference: {fileID: 7400000, guid: d98f7c88116e94c1597806a94b475144, type: 2}
@@ -24400,6 +24449,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 8270209342363771097, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
+    - {fileID: 8028780761697767961, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 7741403938693179779, guid: 11bb81d22bb5646c4afbba236fdeb449, type: 3}
       insertIndex: -1
@@ -25132,3 +25182,4 @@ SceneRoots:
   - {fileID: 455809900}
   - {fileID: 1511998221}
   - {fileID: 973085745}
+  - {fileID: 1093978721}

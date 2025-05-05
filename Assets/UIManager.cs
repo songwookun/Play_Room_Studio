@@ -18,7 +18,6 @@ public class UIManager : MonoBehaviour
 
     private void Awake()
     {
-        // 중복 방지
         if (Instance == null)
         {
             Instance = this;
@@ -29,7 +28,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    // 게임 오버 시 호출
     public void ShowGameOver()
     {
         Time.timeScale = 0f;
@@ -39,7 +37,6 @@ public class UIManager : MonoBehaviour
         Debug.Log("게임 종료 - Game Over 패널 열림");
     }
 
-    // 부활 버튼
     public void OnClickRevive()
     {
         var gm = GameManager.Instance;
@@ -52,14 +49,12 @@ public class UIManager : MonoBehaviour
         Debug.Log("부활 - 체력 복구 및 게임 재개");
     }
 
-    // 결과 패널 표시
     public void ShowResult()
     {
         Debug.Log("ShowResult 호출됨");
 
         if (gameOverPanel != null)
         {
-            // GameOverPanel의 자식 오브젝트들만 꺼줌
             foreach (Transform child in gameOverPanel.transform)
             {
                 child.gameObject.SetActive(false);
@@ -85,9 +80,14 @@ public class UIManager : MonoBehaviour
 
         PlayerPrefs.SetInt("LastGold", gm.collectedCoins);
         PlayerPrefs.Save();
+
+        // CoinManager에도 저장 (동기화)
+        if (CoinManager.Instance != null)
+        {
+            CoinManager.Instance.SetCoins(gm.collectedCoins);
+        }
     }
 
-    // 2배 보상 버튼
     public void OnClickDoubleReward()
     {
         GameManager.Instance.collectedCoins *= 2;
@@ -98,10 +98,15 @@ public class UIManager : MonoBehaviour
         PlayerPrefs.SetInt("LastGold", GameManager.Instance.collectedCoins);
         PlayerPrefs.Save();
 
+        // CoinManager에도 저장 (동기화)
+        if (CoinManager.Instance != null)
+        {
+            CoinManager.Instance.SetCoins(GameManager.Instance.collectedCoins);
+        }
+
         Debug.Log("보상 2배 적용");
     }
 
-    // 시작 화면으로 이동
     public void OnClickGoToStart()
     {
         Time.timeScale = 1f;
