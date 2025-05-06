@@ -12551,7 +12551,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21499c6315586bc47a5e1a81c63cdaaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinText: {fileID: 1151282453}
 --- !u!1 &1234810612 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 577010468887046654, guid: a71a90255c30d47d298c1b4910d5d846, type: 3}
