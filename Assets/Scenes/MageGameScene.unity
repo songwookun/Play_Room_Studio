@@ -3128,6 +3128,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noDamage: 0
+  testCoinAmount: 100
+  resetMageUnlock: 0
 --- !u!1 &994769752
 GameObject:
   m_ObjectHideFlags: 0
@@ -3212,7 +3214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _background: {fileID: 1388576756}
   _handler: {fileID: 5174968126607622471}
-  _player: {fileID: 0}
+  _player: {fileID: 1746605218}
 --- !u!114 &996863986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23179,7 +23181,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1694542616}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: OnClickGoToStart
+        m_MethodName: OnClickExitToStart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -25015,7 +25017,7 @@ SceneRoots:
   - {fileID: 1791437497}
   - {fileID: 1977289563}
   - {fileID: 806196016}
+  - {fileID: 1571119065}
   - {fileID: 455809900}
   - {fileID: 1511998221}
   - {fileID: 973085745}
-  - {fileID: 1571119065}

@@ -80,12 +80,6 @@ public class UIManager : MonoBehaviour
 
         PlayerPrefs.SetInt("LastGold", gm.collectedCoins);
         PlayerPrefs.Save();
-
-        // CoinManager에도 저장 (동기화)
-        if (CoinManager.Instance != null)
-        {
-            CoinManager.Instance.SetCoins(gm.collectedCoins);
-        }
     }
 
     public void OnClickDoubleReward()
@@ -98,18 +92,14 @@ public class UIManager : MonoBehaviour
         PlayerPrefs.SetInt("LastGold", GameManager.Instance.collectedCoins);
         PlayerPrefs.Save();
 
-        // CoinManager에도 저장 (동기화)
-        if (CoinManager.Instance != null)
-        {
-            CoinManager.Instance.SetCoins(GameManager.Instance.collectedCoins);
-        }
-
         Debug.Log("보상 2배 적용");
     }
 
-    public void OnClickGoToStart()
+    public void OnClickExitToStart()
     {
-        Time.timeScale = 1f;
+        Time.timeScale = 1f; // 혹시 멈춰있을 경우를 대비
         SceneManager.LoadScene("StartScene");
+        Debug.Log("나가기 버튼 클릭 - StartScene으로 이동");
     }
+
 }

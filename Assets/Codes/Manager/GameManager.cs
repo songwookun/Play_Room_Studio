@@ -4,6 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 
+[System.Serializable]
+public class CoinData
+{
+    public int totalCoins = 0;
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
@@ -31,9 +37,17 @@ public class GameManager : MonoBehaviour
     public Sprite stopSprite;
     public Sprite startSprite;
 
+    private string coinSavePath;
+
     private void Awake()
     {
         Instance = this;
+
+        // 코인 JSON 저장 경로 설정
+        coinSavePath = Path.Combine(Application.persistentDataPath, "coin_data.json");
+        Debug.Log("코인 JSON 저장 경로: " + coinSavePath);
+
+        LoadCoinData(); // 게임 시작 시 코인 불러오기
     }
 
     private void Start()
@@ -116,6 +130,8 @@ public class GameManager : MonoBehaviour
     public void GainCoin(int amount = 1)
     {
         collectedCoins += amount;
+        SaveCoinData(); // 코인 저장
+        Debug.Log($"[코인 획득] 현재 총 코인 수: {collectedCoins}");
     }
 
     public void GainMP(int amount = 1)
@@ -180,6 +196,32 @@ public class GameManager : MonoBehaviour
         if (health <= 0 && !UIManager.Instance.gameOverPanel.activeSelf)
         {
             UIManager.Instance.ShowGameOver();
+        }
+    }
+
+    // 코인 저장
+    public void SaveCoinData()
+    {
+        CoinData data = new CoinData { totalCoins = collectedCoins };
+        string json = JsonUtility.ToJson(data, true);
+        File.WriteAllText(coinSavePath, json);
+        Debug.Log($"[코인 저장됨] 총 코인 수: {collectedCoins}");
+    }
+
+    // 코인 불러오기
+    public void LoadCoinData()
+    {
+        if (File.Exists(coinSavePath))
+        {
+            string json = File.ReadAllText(coinSavePath);
+            CoinData data = JsonUtility.FromJson<CoinData>(json);
+            collectedCoins = data.totalCoins;
+            Debug.Log($"[코인 불러옴] 총 코인 수: {collectedCoins}");
+        }
+        else
+        {
+            collectedCoins = 0;
+            SaveCoinData(); // 없으면 새로 생성
         }
     }
 }
