@@ -651,6 +651,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 159897848}
   m_CullTransparentMesh: 1
+--- !u!1 &213693536
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 213693537}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &213693537
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213693536}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1403.1902, y: 679.386, z: -10.811687}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &218653528
 GameObject:
   m_ObjectHideFlags: 0
@@ -1982,7 +2013,7 @@ Transform:
   m_GameObject: {fileID: 704681455}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.008726557, z: -0, w: 0.9999619}
-  m_LocalPosition: {x: -1.6434605, y: 0.49, z: -0.03753078}
+  m_LocalPosition: {x: -3.2, y: 0.49, z: -0.09}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2517,7 +2548,7 @@ GameObject:
   - component: {fileID: 790082240}
   - component: {fileID: 790082239}
   m_Layer: 5
-  m_Name: Fire Slash Card
+  m_Name: Thunder Bolt Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2632,7 +2663,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 6757556753388675860, guid: ba180d2dc20da6348833ee3fdd081fdd, type: 3}
+  m_Sprite: {fileID: -8419755393116372402, guid: 08c759187f5c4be4ab59aeaa3b35a4ae, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3026,7 +3057,7 @@ MonoBehaviour:
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
   Target:
-    TrackingTarget: {fileID: 0}
+    TrackingTarget: {fileID: 1746605222}
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
@@ -22600,7 +22631,7 @@ PrefabInstance:
       addedObject: {fileID: 1746605217}
     - targetCorrespondingSourceObject: {fileID: 3199518019851766450, guid: a71a90255c30d47d298c1b4910d5d846, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1746605223}
+      addedObject: {fileID: 1746605225}
   m_SourcePrefab: {fileID: 100100000, guid: a71a90255c30d47d298c1b4910d5d846, type: 3}
 --- !u!1 &1631805960
 GameObject:
@@ -22647,7 +22678,7 @@ GameObject:
   - component: {fileID: 1644209653}
   - component: {fileID: 1644209652}
   m_Layer: 5
-  m_Name: 'SPEED BOOST Card '
+  m_Name: Mana Dice Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22762,7 +22793,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 241703576910612460, guid: 26302878e8f47fe4eb8177f1eb829561, type: 3}
+  m_Sprite: {fileID: -2511942668222810022, guid: 094976f848858fa42bc06ca8c754c41e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -22883,7 +22914,7 @@ GameObject:
   - component: {fileID: 1667281422}
   - component: {fileID: 1667281426}
   m_Layer: 5
-  m_Name: Ice Slash Card
+  m_Name: Ice Fall Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22984,7 +23015,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 336817038530562577, guid: b48f9b80a3bec90418aeeacb2f210311, type: 3}
+  m_Sprite: {fileID: 4271290786367350333, guid: aaa37115b9ea9d94fabd74fa248a2ffb, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -23014,7 +23045,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a4f86a3ffa2eb547b5a5effcdcb809f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillId: 1
+  skillId: 5
   skillManager: {fileID: 1791437498}
 --- !u!1 &1667595818
 GameObject:
@@ -23721,7 +23752,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7313419037573989104, guid: a71a90255c30d47d298c1b4910d5d846, type: 3}
   m_PrefabInstance: {fileID: 1571119065}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1746605223
+--- !u!114 &1746605225
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23734,7 +23765,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillPrefabs:
-  - {fileID: 5713381984438563512, guid: e6ecdc4c6de4c0c4ab7cf96577beb035, type: 3}
+  - {fileID: 1583843092216547755, guid: 6a756990943bcdd4fb027889c316849f, type: 3}
+  - {fileID: 4122465668873060244, guid: d8bfd99d1f46ef446a9941a3dd6d870a, type: 3}
   attackPoint: {fileID: 704681456}
 --- !u!1 &1746830554
 GameObject:
@@ -23890,6 +23922,10 @@ MonoBehaviour:
   skillPrefabs:
   - {fileID: 2047463536494728475, guid: e32564b7c0c19d34f87ca22e49614548, type: 3}
   - {fileID: 6508048449005836132, guid: 3c1f5ea3f6696bd4785b6c9a2128511e, type: 3}
+  - {fileID: 213693536}
+  - {fileID: 213693536}
+  - {fileID: 213693536}
+  - {fileID: 3414310744370811247, guid: 41e8dbfe1edcbc84bbb833bc48cf98be, type: 3}
   fireBoomZoneObject: {fileID: 0}
   fireBoomProjectilePrefab: {fileID: 335423063139686485, guid: 00bc3fa8fe4130147bfc57a7dcddbca9, type: 3}
   mpManager: {fileID: 2128702383}
@@ -25020,3 +25056,4 @@ SceneRoots:
   - {fileID: 455809900}
   - {fileID: 1511998221}
   - {fileID: 973085745}
+  - {fileID: 213693537}

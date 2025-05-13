@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5713381984438563512
+--- !u!1 &4122465668873060244
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,40 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4097397235803226051}
-  - component: {fileID: 2915962781692650871}
-  - component: {fileID: 610797889456570417}
-  - component: {fileID: 7810930825732188089}
-  - component: {fileID: 5698462181535069569}
+  - component: {fileID: 3717782968786793299}
+  - component: {fileID: 13116786106548587}
+  - component: {fileID: 681332711427389896}
+  - component: {fileID: -691243018311486689}
+  - component: {fileID: -9208761605137802793}
   m_Layer: 0
-  m_Name: slashPrefab
+  m_Name: Mage hit2
   m_TagString: Skill
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4097397235803226051
+--- !u!4 &3717782968786793299
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5713381984438563512}
+  m_GameObject: {fileID: 4122465668873060244}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.39, z: 0}
-  m_LocalScale: {x: 0.19999999, y: 0.19999999, z: 0.19999999}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: -0.95, y: -0.74, z: 0}
+  m_LocalScale: {x: 2, y: 0.8, z: 0.2}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &2915962781692650871
+--- !u!212 &13116786106548587
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5713381984438563512}
+  m_GameObject: {fileID: 4122465668873060244}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -79,25 +79,43 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -8347195149836340569, guid: f1c464531df09544f846a3eeadbcb93c, type: 3}
+  m_Sprite: {fileID: -2946822182371363500, guid: cef97cad3d37718459c2bdc2f6a76e08, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 10.19, y: 10.19}
+  m_Size: {x: 1.89, y: 5.44}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &610797889456570417
+--- !u!114 &681332711427389896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4122465668873060244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd57245ef6acc6a469b2d3bd54b324b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
+  hitEffectPrefab: {fileID: 3184114197373120004, guid: 9e78de86f5c1ffc4c86dfefeb4ca5c46, type: 3}
+  effectType: 
+  effectDuration: 0
+  tickDamage: 0
+  speedReduction: 0
+--- !u!50 &-691243018311486689
 Rigidbody2D:
   serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5713381984438563512}
+  m_GameObject: {fileID: 4122465668873060244}
   m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -117,13 +135,13 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &7810930825732188089
-BoxCollider2D:
+--- !u!70 &-9208761605137802793
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5713381984438563512}
+  m_GameObject: {fileID: 4122465668873060244}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -151,33 +169,6 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 10.19, y: 10.19}
-    newSize: {x: 10.19, y: 10.19}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 5.69, y: 6.65}
-  m_EdgeRadius: 0
---- !u!114 &5698462181535069569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5713381984438563512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd57245ef6acc6a469b2d3bd54b324b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 0
-  hitEffectPrefab: {fileID: 3184114197373120004, guid: 9e78de86f5c1ffc4c86dfefeb4ca5c46, type: 3}
-  effectType: 
-  effectDuration: 0
-  tickDamage: 0
-  speedReduction: 0
+  m_Offset: {x: -0.04, y: -0.86}
+  m_Size: {x: 1.86, y: 2.74}
+  m_Direction: 0
